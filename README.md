@@ -13,11 +13,6 @@ AI Prompt Enhancer Bot is a Telegram bot that transforms simple user inputs into
 - **Feedback System**: Submit feedback to help improve the bot
 - **API Fallback**: Automatic fallback between API keys if one fails
 
-## Prerequisites
-
-- Python 3.13.5 or compatible version
-- Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
-- OpenRouter API Key(s) (from [OpenRouter](https://openrouter.ai/))
 
 ## Installation
 
@@ -58,11 +53,10 @@ Create a `.env` file in the project root with the following variables:
 
 ```
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-OPENROUTER_API_KEY_01=your_openrouter_api_key_for_free_mode
-OPENROUTER_API_KEY_02=your_openrouter_api_key_for_advanced_mode
+OPENROUTER_API_KEY_01=API_KEY
+OPENROUTER_API_KEY_02=API_KEY
 ```
 
-> **Note**: You need at least one OpenRouter API key. For optimal functionality, provide both keys.
 
 ## Usage
 

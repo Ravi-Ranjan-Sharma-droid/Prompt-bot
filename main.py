@@ -471,6 +471,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         error_msg = (
             "⚠️ <b>Oops! Something went wrong.</b>\n\n"
             f"<i>Error: {str(e)}</i>\n\n"
+            "Try to switch different model if you are using advanced mode and it is asking for payment, but payment gateway is not available.\n\n"
             "Please try again or use /help for assistance."
         )
         await update.message.reply_text(error_msg, parse_mode='HTML')
@@ -645,12 +646,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 "• Fast response times\n"
                 "• Good for basic prompt enhancement\n"
                 "• No usage limits\n"
-                "• Uses API Key 01 by default\n\n"
+                "• Uses Deepseek by default\n\n"
                 "<b>⭐ Advanced Model:</b>\n"
                 "• Superior quality outputs\n"
                 "• Better understanding of complex requests\n"
                 "• More creative and detailed enhancements\n"
-                "• Uses API Key 02 by default"
+                "• Uses Claude by default"
             )
             
             await query.edit_message_text(
@@ -711,8 +712,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             
             status_text = (
                 "📊 <b>Bot Status</b>\n\n"
-                f"<b>API Key 01 (Free):</b> {api1_status}\n"
-                f"<b>API Key 02 (Advanced):</b> {api2_status}\n\n"
+                f"<b>Deepseek (Free):</b> {api1_status}\n"
+                f"<b>claude (Advanced):</b> {api2_status}\n\n"
                 f"<b>Total Users:</b> {len(user_sessions)}\n"
                 f"<b>Total Prompts Generated:</b> {sum(len(session.history) for session in user_sessions.values())}\n"
                 f"<b>Bot Uptime:</b> Since last restart\n\n"
@@ -865,8 +866,8 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     
     status_text = (
         "📊 <b>Bot Status</b>\n\n"
-        f"<b>API Key 01 (Free):</b> {api1_status}\n"
-        f"<b>API Key 02 (Advanced):</b> {api2_status}\n\n"
+        f"<b>Deepseek (Free):</b> {api1_status}\n"
+        f"<b>Claude (Advanced):</b> {api2_status}\n\n"
         f"<b>Total Users:</b> {len(user_sessions)}\n"
         f"<b>Total Prompts Generated:</b> {sum(len(session.history) for session in user_sessions.values())}\n"
         f"<b>Bot Uptime:</b> Since last restart\n\n"
