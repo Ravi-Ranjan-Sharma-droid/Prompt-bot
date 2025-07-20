@@ -260,6 +260,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         elif data == 'find_me':
             keyboard = [
                 [InlineKeyboardButton("📱 Open Instagram", url='https://www.instagram.com/nr_snorlax/')],
+                [InlineKeyboardButton("💻 View GitHub", url='https://github.com/Ravi-Ranjan-Sharma-Droid')],
                 [InlineKeyboardButton("🔙 Back to Main", callback_data='back_to_main')]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)

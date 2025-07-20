@@ -7,6 +7,8 @@ load_dotenv()
 
 # === Configuration ===
 class Config:
+    # Admin user IDs (for administrative commands)
+    ADMIN_IDS = [int(id.strip()) for id in os.getenv("ADMIN_IDS", "").split(",") if id.strip()]
     TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
     OPENROUTER_API_KEY_01 = os.getenv("OPENROUTER_API_KEY_01")  # Free mode default
     OPENROUTER_API_KEY_02 = os.getenv("OPENROUTER_API_KEY_02")  # Advanced mode default

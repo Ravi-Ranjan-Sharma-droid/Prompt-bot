@@ -4,6 +4,7 @@ from telegram.ext import ContextTypes
 
 from bot.models import user_sessions
 from bot.config import Config
+from bot.database import feedback_db
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,21 @@ async def periodic_cleanup(context: ContextTypes.DEFAULT_TYPE) -> None:
         
         # Reset API status every hour (in case of temporary issues)
         Config.reset_api_status()
+        
+        # Ensure database connection is maintained
+        try:
+            # Simple query to keep connection alive
+            feedback_count = len(feedback_db.get_all_feedback())
+            logger.info(f"Database connection verified. Current feedback count: {feedback_count}")
+        except Exception as e:
+            logger.error(f"Database connection error during periodic cleanup: {e}")
+            # Try to reinitialize database
+            try:
+                feedback_db._initialize_db()
+                logger.info("Database connection reinitialized")
+            except Exception as e2:
+                logger.error(f"Failed to reinitialize database: {e2}")
+        
         logger.info("Periodic cleanup completed")
         
     except Exception as e:
