@@ -129,6 +129,44 @@ The bot performs these maintenance tasks automatically:
 
 - Removing user sessions inactive for more than 7 days
 - Resetting API status hourly to recover from temporary issues
+- Maintaining database connections and verifying feedback storage
+
+## Feedback Database
+
+The bot now stores all user feedback in an SQLite database (`feedback.db`) for better persistence and analysis:
+
+### Features
+
+- All feedback is automatically saved to both in-memory storage and the SQLite database
+- Dual storage ensures compatibility with existing code while adding persistence
+- Admin commands are available for feedback management:
+  - `/export_feedback` - Export all feedback to a CSV file
+  - `/feedback_stats` - View statistics about collected feedback
+- Configure admin access by setting the `ADMIN_IDS` environment variable with comma-separated Telegram user IDs
+
+### Database Schema
+
+The feedback database uses a simple schema:
+
+```sql
+CREATE TABLE feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    username TEXT,
+    feedback_text TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+)
+```
+
+### Utility Scripts
+
+The `scripts/` directory contains utility scripts for working with the feedback database:
+
+- `migrate_feedback.py` - Migrate existing in-memory feedback to the database
+- `analyze_feedback.py` - Generate statistics and visualizations from feedback data
+- `backup_database.py` - Create and manage database backups
+
+See the [scripts README](scripts/README.md) for more information.
 
 ## Troubleshooting
 

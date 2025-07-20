@@ -8,6 +8,7 @@ from bot.models import get_user_session
 from bot.prompts import build_prompt
 from bot.api import ask_openrouter
 from bot.config import Config
+from bot.utils.username import format_username, sanitize_username
 
 logger = logging.getLogger(__name__)
 
@@ -93,8 +94,20 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         await update.message.reply_text(error_msg, parse_mode='HTML')
 
 async def handle_feedback_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle feedback messages from users."""
-    user_id = update.effective_user.id
+    """Handle feedback messages from users.
+    
+    Processes feedback text from users and stores it in the database with their username.
+    
+    Args:
+        update: The Telegram update object
+        context: The Telegram context object
+    """
+    user = update.effective_user
+    user_id = user.id
+    
+    # Use the utility function to get a consistent username format
+    username = format_username(user)
+    
     session = get_user_session(user_id)
     feedback_text = update.message.text.strip()
     
@@ -105,8 +118,8 @@ async def handle_feedback_message(update: Update, context: ContextTypes.DEFAULT_
         await update.message.reply_text("⚠️ Please provide your feedback.")
         return
     
-    # Store feedback
-    session.add_feedback(feedback_text)
+    # Store feedback with username
+    session.add_feedback(feedback_text, username)
     
     # Log feedback for developer
     logger.info(f"Feedback from user {user_id}: {feedback_text}")

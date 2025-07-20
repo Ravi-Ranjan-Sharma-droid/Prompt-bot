@@ -64,15 +64,15 @@ wheels/
 *.egg
 
 # Unit test / coverage reports
-# htmlcov/
-# .tox/
-# .coverage
-# .coverage.*
-# .cache
-# nosetests.xml
-# coverage.xml
-# *.cover
-# .hypothesis/
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -83,11 +83,11 @@ wheels/
 # Deployment files
 deploy.txt
 
-# Database files | for now there is no database
-# *.db
-# *.sqlite3
-# *.sqlite
+# Database files
+*.db
+*.sqlite3
+*.sqlite
 
 # OS specific files
-# .DS_Store
-# Thumbs.db
+.DS_Store
+Thumbs.db

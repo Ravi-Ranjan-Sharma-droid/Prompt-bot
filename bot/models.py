@@ -24,15 +24,21 @@ class UserSession:
             self.history = self.history[-20:]
         self.last_interaction = datetime.now()
     
-    def add_feedback(self, feedback: str):
-        """Add feedback to user's feedback history"""
+    def add_feedback(self, feedback: str, username: str = None):
+        """Add feedback to user's feedback history and database"""
+        # Add to in-memory storage
         self.feedback_history.append({
             "feedback": feedback,
+            "username": username,
             "timestamp": datetime.now().isoformat()
         })
         # Keep only the last 50 feedback items
         if len(self.feedback_history) > 50:
             self.feedback_history = self.feedback_history[-50:]
+        
+        # Add to database (import here to avoid circular imports)
+        from bot.database import feedback_db
+        feedback_db.add_feedback(self.user_id, feedback, username)
 
 # Global session storage (in production, use a database)
 user_sessions: Dict[int, UserSession] = {}
