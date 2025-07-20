@@ -24,17 +24,28 @@ project-root/
 │   ├── models.py            # Data models (e.g., UserSession)
 │   ├── prompts.py           # Prompt engineering logic
 │   ├── api.py               # API communication
+│   ├── database.py          # Database operations for feedback storage
 │   ├── handlers/            # Telegram handlers
 │   │   ├── __init__.py
+│   │   ├── admin.py         # Admin-only commands (/export_feedback, etc.)
 │   │   ├── commands.py      # /start, /help, /feedback, etc.
 │   │   ├── messages.py      # Message handler
 │   │   ├── callbacks.py     # Button and callback queries
-│   │   └── errors.py        # Error handling
-│   └── tasks.py             # Periodic jobs like cleanup
+│   │   ├── errors.py        # Error handling
+│   │   └── stats.py         # Statistics commands (/feedback_stats, etc.)
+│   ├── tasks.py             # Periodic jobs like cleanup
+│   └── utils/               # Utility functions
+│       ├── __init__.py
+│       └── username.py      # Username sanitization utilities
 ├── main.py                  # Starts the bot, loads handlers
 ├── requirements.txt         # Project dependencies
 ├── .env                     # Environment variables (not in repo)
-└── README.md                # This file
+├── feedback.db              # SQLite database for feedback storage
+├── backups/                 # Database backup directory
+└── scripts/                 # Utility scripts for database operations
+    ├── analyze_feedback.py  # Generate statistics from feedback data
+    ├── backup_database.py   # Create database backups
+    └── restore_database.py  # Restore database from backups
 ```
 
 ## Installation
@@ -75,8 +86,15 @@ pip install -r requirements.txt
 Create a `.env` file in the project root with the following variables:
 
 ```
+# Required configuration
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-# Add your API keys for the AI services
+
+# API keys for OpenRouter AI services
+API_KEY_01=yourapi_key_for_free_mode
+API_KEY_02=your_api_key_for_advanced_mode
+
+# Admin configuration (comma-separated Telegram user IDs)
+ADMIN_IDS=123456789,987654321
 ```
 
 ## Usage
@@ -89,12 +107,17 @@ python main.py
 
 ### Telegram Commands
 
+#### User Commands
 - `/start` - Display the main menu with interactive buttons
 - `/help` - Show detailed help message and command list
 - `/history` - View your recent prompts and their enhanced versions
 - `/model` - Switch between Free and Advanced AI models
 - `/feedback` - Send feedback or report issues
 - `/status` - Check bot status and service availability
+
+#### Admin Commands
+- `/export_feedback` - Export all feedback to a CSV file (admin only)
+- `/feedback_stats` - View statistics about collected feedback (admin only)
 
 ### How to Use
 
